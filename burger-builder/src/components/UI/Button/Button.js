@@ -8,4 +8,3 @@ const button = (props) => (
 );
 
 export default button;
-//small change
