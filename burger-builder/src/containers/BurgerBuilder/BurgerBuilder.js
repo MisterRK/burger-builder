@@ -22,6 +22,7 @@ class BurgerBuilder extends Component {
     purchaseable: false,
     ordered: false,
     loading: false,
+    error: false,
   };
 
   componentDidMount() {
@@ -29,6 +30,9 @@ class BurgerBuilder extends Component {
       .get("https://react---burger-builder.firebaseio.com/Ingredients.json")
       .then((response) => {
         this.setState({ ingredients: response.data });
+      })
+      .catch((error) => {
+        this.setState({ error: true });
       });
   }
 
@@ -103,6 +107,7 @@ class BurgerBuilder extends Component {
       .then((response) => this.setState({ loading: false, ordered: false }))
       .catch((error) => this.setState({ loading: false, ordered: false }));
   };
+
   render() {
     const disabledInfo = {
       ...this.state.ingredients,
@@ -115,7 +120,11 @@ class BurgerBuilder extends Component {
     if (this.state.loading) {
       orderSummary = <Spinner />;
     }
-    let burger = <Spinner />;
+    let burger = this.state.error ? (
+      <p>Ingredients can't be loaded</p>
+    ) : (
+      <Spinner />
+    );
     if (this.state.ingredients) {
       burger = (
         <Aux>
