@@ -8,7 +8,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
     state = {
       error: null,
     };
-
+    // set the interceptors to work globally
     componentWillMount() {
       this.reqInterceptor = axios.interceptors.request.use((req) => {
         this.setState({ error: null });
@@ -18,7 +18,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
         this.setState({ error: error });
       });
     }
-    
+    //clear interceptors when component unmounts to prevent memorty link
     componentWillUnmount() {
       axios.interceptors.request.eject(this.reqInterceptor)
       axios.interceptors.request.eject(this.resInterceptor)
