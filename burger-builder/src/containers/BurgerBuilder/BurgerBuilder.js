@@ -88,24 +88,31 @@ class BurgerBuilder extends Component {
   purchaseContinue = () => {
     // alert('You Continue')
     //choosing the node name and add .json for firbase only
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Robert Keller",
-        address: {
-          street: "Test Street 1",
-          zipCode: "12345",
-          country: "USA",
-        },
-        delivery: "fastest",
-      },
-    };
-    axios.post("/orders.json", order)
-      .then((response) => this.setState({ loading: false, ordered: false }))
-      .catch((error) => this.setState({ loading: false, ordered: false }));
-    this.props.history.push('/checkout')
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: "Robert Keller",
+    //     address: {
+    //       street: "Test Street 1",
+    //       zipCode: "12345",
+    //       country: "USA",
+    //     },
+    //     delivery: "fastest",
+    //   },
+    // };
+    // axios.post("/orders.json", order)
+    //   .then((response) => this.setState({ loading: false, ordered: false }))
+    //   .catch((error) => this.setState({ loading: false, ordered: false }));
+    const queryParams = [];
+    for(let i in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+    }
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString})
   };
 
   render() {
