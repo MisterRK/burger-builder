@@ -102,13 +102,14 @@ class BurgerBuilder extends Component {
         delivery: "fastest",
       },
     };
-    axios
-      .post("/orders.json", order)
+    axios.post("/orders.json", order)
       .then((response) => this.setState({ loading: false, ordered: false }))
       .catch((error) => this.setState({ loading: false, ordered: false }));
+    this.props.history.push('/checkout')
   };
 
   render() {
+    console.log(this.props)
     const disabledInfo = {
       ...this.state.ingredients,
     };
