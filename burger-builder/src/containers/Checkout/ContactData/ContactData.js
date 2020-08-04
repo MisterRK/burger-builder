@@ -67,15 +67,19 @@ class ContactData extends Component {
     updatedOrderFormElement.value = e.target.value
     updatedOrderForm[formElementId] = updatedOrderFormElement
     this.setState({orderForm: updatedOrderForm})
-    // console.log("updatedOrderForm",updatedOrderForm)
-    // console.log("updatedOrderFormElement",updatedOrderFormElement)
   } 
+
 	orderHandler = (e) => {
 		e.preventDefault();
-		this.setState({ loading: true });
+    this.setState({ loading: true });
+    const customerData = {}
+    for( let formElementId in this.state.orderForm){
+      customerData[formElementId] = this.state.orderForm[formElementId].value
+    }
 		const order = {
 			ingredients: this.props.ingredients,
-			price: this.props.price,
+      price: this.props.price,
+      orderData: customerData
 		};
 		console.log(order);
 		axios
@@ -98,7 +102,7 @@ class ContactData extends Component {
     }
     console.log(formElementsArray)
 		let form = (
-			<form>
+			<form onSubmit={this.orderHandler}>
         {formElementsArray.map(formElement => (
         <Input 
         changed={(event) => this.inputChangedHandler(event, formElement.id)}
