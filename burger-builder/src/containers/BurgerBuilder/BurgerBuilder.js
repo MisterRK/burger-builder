@@ -14,18 +14,10 @@ class BurgerBuilder extends Component {
 	state = {
 		ordered: false,
 		loading: false,
-		error: false,
 	};
 
 	componentDidMount() {
-		// axios
-		//   .get("https://react---burger-builder.firebaseio.com/Ingredients.json")
-		//   .then((response) => {
-		//     this.setState({ ingredients: response.data });
-		//   })
-		//   .catch((error) => {
-		//     this.setState({ error: true });
-		//   });
+		this.props.onInitIngredients()
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -107,6 +99,7 @@ const mapStateToProps = (state) => {
 	return {
 		ings: state.ingredients,
 		price: state.totalPrice,
+		error: state.error
 	};
 };
 
@@ -116,6 +109,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(burgerBuilderActions.addIngredient(ingName)),
 		removeIngredient: (ingName) =>
 			dispatch(burgerBuilderActions.removeIngredient(ingName)),
+		onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
 	};
 };
 
