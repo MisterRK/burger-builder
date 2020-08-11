@@ -37,6 +37,7 @@ const reducer = (state = initialState, action) => {
          case actionTypes.SET_INGREDIENTS:
             return {
                ...state,
+               totalPrice: 10,
                ingredients: {
                   lettuce: action.ingredients.lettuce,
                   bacon: action.ingredients.bacon,

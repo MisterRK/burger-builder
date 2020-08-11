@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./ContactData.module.css";
 import axios from "../../../axios-orders";
-import withErrorHandler from '../../../components/hoc/withErrorHandler/WithErrorHandler'
+import withErrorHandler from "../../../components/hoc/withErrorHandler/WithErrorHandler";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
-import { connect } from 'react-redux'
-import * as actions from '../../../store/actions/index';
+import { connect } from "react-redux";
+import * as actions from "../../../store/actions/index";
 
 class ContactData extends Component {
 	state = {
@@ -20,8 +20,8 @@ class ContactData extends Component {
 				validation: {
 					required: true,
 				},
-        valid: false,
-        touched: false,
+				valid: false,
+				touched: false,
 				value: "",
 			},
 			street: {
@@ -33,8 +33,8 @@ class ContactData extends Component {
 				validation: {
 					required: true,
 				},
-        valid: false,
-        touched: false,
+				valid: false,
+				touched: false,
 				value: "",
 			},
 			zipCode: {
@@ -44,12 +44,12 @@ class ContactData extends Component {
 					placeholder: "ZIP CODE",
 				},
 				validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 5
+					required: true,
+					minLength: 5,
+					maxLength: 5,
 				},
-        valid: false,
-        touched: false,
+				valid: false,
+				touched: false,
 				value: "",
 			},
 			country: {
@@ -60,8 +60,8 @@ class ContactData extends Component {
 				},
 				validation: {
 					required: true,
-        },
-        touched: false,
+				},
+				touched: false,
 				valid: false,
 				value: "",
 			},
@@ -73,9 +73,9 @@ class ContactData extends Component {
 				},
 				validation: {
 					required: true,
-        },
-        touched: false,
-        valid: false,
+				},
+				touched: false,
+				valid: false,
 				value: "",
 			},
 			deliveryMethod: {
@@ -85,13 +85,13 @@ class ContactData extends Component {
 						{ value: "fastest", displayValue: "Fastest" },
 						{ value: "cheapest", displayValue: "Cheapest" },
 					],
-        },
-        validation: {},
-        valid: true,
-        value: "fastest",
+				},
+				validation: {},
+				valid: true,
+				value: "fastest",
 			},
-    },
-    formIsValid: false,
+		},
+		formIsValid: false,
 		loading: false,
 	};
 
@@ -99,35 +99,38 @@ class ContactData extends Component {
 		const updatedOrderForm = { ...this.state.orderForm };
 		const updatedOrderFormElement = { ...updatedOrderForm[formElementId] };
 		updatedOrderFormElement.value = e.target.value;
-		updatedOrderFormElement.valid = this.checkValidity(updatedOrderFormElement.value, updatedOrderFormElement.validation);
-    updatedOrderFormElement.touched = true
-    updatedOrderForm[formElementId] = updatedOrderFormElement;
-    console.log(updatedOrderForm)
+		updatedOrderFormElement.valid = this.checkValidity(
+			updatedOrderFormElement.value,
+			updatedOrderFormElement.validation
+		);
+		updatedOrderFormElement.touched = true;
+		updatedOrderForm[formElementId] = updatedOrderFormElement;
+		console.log(updatedOrderForm);
 
-    let formIsValid = true;
-    for( let input in updatedOrderForm){
-      formIsValid = updatedOrderForm[input].valid && formIsValid;
-    }
-    console.log("form is valid", formIsValid)
+		let formIsValid = true;
+		for (let input in updatedOrderForm) {
+			formIsValid = updatedOrderForm[input].valid && formIsValid;
+		}
+		console.log("form is valid", formIsValid);
 		this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
-  };
-  
+	};
+
 	checkValidity(value, rules) {
-    console.log("value, rules", value, rules)
+		console.log("value, rules", value, rules);
 		let isValid = true;
 		if (rules.required) {
 			isValid = value.trim() !== "" && isValid;
-    }
+		}
 
-    if(rules.minLength){
-      isValid = value.length >= rules.minLength && isValid
-    }
+		if (rules.minLength) {
+			isValid = value.length >= rules.minLength && isValid;
+		}
 
-    if(rules.maxLength){
-      isValid = value.length <= rules.maxLength && isValid
-    }
+		if (rules.maxLength) {
+			isValid = value.length <= rules.maxLength && isValid;
+		}
 
-    // console.log("isValid", isValid)
+		// console.log("isValid", isValid)
 		return isValid;
 	}
 
@@ -144,7 +147,7 @@ class ContactData extends Component {
 			price: this.props.price,
 			orderData: customerData,
 		};
-		this.props.onOrderBurger(order)
+		this.props.onOrderBurger(order);
 	};
 
 	render() {
@@ -159,9 +162,9 @@ class ContactData extends Component {
 			<form onSubmit={this.orderHandler}>
 				{formElementsArray.map((formElement) => (
 					<Input
-            touched={formElement.config.touched}
-            shouldValidate={formElement.config.validation}
-            invalid={!formElement.config.valid}
+						touched={formElement.config.touched}
+						shouldValidate={formElement.config.validation}
+						invalid={!formElement.config.valid}
 						changed={(event) =>
 							this.inputChangedHandler(event, formElement.id)
 						}
@@ -171,7 +174,11 @@ class ContactData extends Component {
 						elementType={formElement.config.elementType}
 					/>
 				))}
-				<Button disabled={!this.state.formIsValid} clicked={this.orderHandler} btnType="Success">
+				<Button
+					disabled={!this.state.formIsValid}
+					clicked={this.orderHandler}
+					btnType="Success"
+				>
 					Place Order
 				</Button>
 			</form>
@@ -188,19 +195,21 @@ class ContactData extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
-		ings: state.ingredients,
-		price: state.totalPrice,
-		loading: state.loading
-	}
-}
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		loading: state.order.loading,
+	};
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
 	return {
-		onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
-	}
-}
+		onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+	};
+};
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData));
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
