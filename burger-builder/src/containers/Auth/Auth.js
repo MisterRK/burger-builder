@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import classes from './auth.module.css'
+import * as actions from '../../store/actions/index'
+import { connect } from 'react-redux'
 
 class Auth extends Component {
 	state = {
@@ -70,7 +72,11 @@ class Auth extends Component {
          }
       }
       this.setState({controls: updatedControls})
-   };
+	};
+	submitHandler = (e) => {
+		e.preventDefault()
+		this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value)
+	}
 	render() {
       console.log(this.state)
       const formElementsArray = []
@@ -82,27 +88,34 @@ class Auth extends Component {
       }
       const form = formElementsArray.map(formElement => (
          <Input
+			key={formElement.id}
          touched={formElement.config.touched}
          shouldValidate={formElement.config.validation}
          invalid={!formElement.config.valid}
          changed={(event) =>
             this.inputChangedHandler(event, formElement.id)
          }
-         key={formElement.config.id}
          value={formElement.config.value}
          elementConfig={formElement.config.elementConfig}
          elementType={formElement.config.elementType}
          />
-         ))
+			))
          return (
             <div className={classes.AuthForm}>
-				<form>
+				<form onSubmit={this.submitHandler}>
                {form}
-               <Button btnType='success'>Submit</Button>
+               <Button btnType='Success'>Submit</Button>
             </form>
+					<Button btnType='Danger'>Switch to Sign In</Button>
 			</div>
 		);
 	}
 }
 
-export default Auth;
+const mapDispatchToProps = dispatch => {
+	return {
+		onAuth: (email, password) => dispatch(actions.auth(email, password))
+	}
+}
+
+export default connect(null, mapDispatchToProps)(Auth);
