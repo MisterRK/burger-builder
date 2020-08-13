@@ -9,6 +9,9 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../components/hoc/withErrorHandler/WithErrorHandler";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
+
 
 class BurgerBuilder extends Component {
 	state = {
@@ -18,6 +21,13 @@ class BurgerBuilder extends Component {
 
 	componentDidMount() {
 		this.props.onInitIngredients();
+		firebase.auth().onAuthStateChanged(user => {
+			console.log(
+				user.displayName,
+				user.email,
+				user.uid,
+			)
+		})
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -43,6 +53,8 @@ class BurgerBuilder extends Component {
 		this.props.onInitPurchase()
 		this.props.history.push("/checkout");
 	};
+
+	
 
 	render() {
 		const disabledInfo = {
