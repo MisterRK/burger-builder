@@ -19,10 +19,10 @@ export const authStart = () => {
    }
 }
 
-export const authSuccess = (authData) => {
+export const authSuccess = (user) => {
    return {
       type: actionTypes.AUTH_SUCCESS,
-      authData: authData
+      user: user
    }
 }
 
@@ -39,9 +39,12 @@ export const auth = (email, password, isSignUp) => {
       //if a new user is signing up create a new user in the DB
       if(isSignUp){
          firebase.auth().createUserWithEmailAndPassword(email,password)
+         let user = firebase.auth().currentUser
+         dispatch(authSuccess(user))
          .catch(error => {
             console.log(error.code, error.message)
          })
+         dispatch(authSuccess())
       //otherwise sign in an already created user
       //get access to the user's information using global auth object
       } else {

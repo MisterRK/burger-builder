@@ -4,6 +4,7 @@ import Input from "../../components/UI/Input/Input";
 import classes from "./auth.module.css";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Auth extends Component {
 	state = {
@@ -61,7 +62,8 @@ class Auth extends Component {
 
 		// console.log("isValid", isValid)
 		return isValid;
-	}
+	};
+
 	inputChangedHandler = (e, controlName) => {
 		const updatedControls = {
 			...this.state.controls,
@@ -77,6 +79,7 @@ class Auth extends Component {
 		};
 		this.setState({ controls: updatedControls });
 	};
+
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.props.onAuth(
@@ -91,6 +94,7 @@ class Auth extends Component {
 			return { isSignUp: !prevState.isSignUp };
 		});
 	};
+
 	render() {
 		const formElementsArray = [];
 		for (let key in this.state.controls) {
@@ -115,7 +119,9 @@ class Auth extends Component {
 			<div className={classes.AuthForm}>
 				<form onSubmit={this.submitHandler}>
 					{form}
-					<Button btnType="Success">{this.state.isSignUp? 'Sign Up': 'Sign In'}</Button>
+					<Button btnType="Success">
+						{this.state.isSignUp ? "Sign Up" : "Sign In"}
+					</Button>
 				</form>
 				<Button clicked={this.switchAuthMode} btnType="Danger">
 					{this.state.isSignUp ? "Switch to Sign In" : "Switch to Sign Up"}
@@ -127,7 +133,8 @@ class Auth extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
+		onAuth: (email, password, isSignUp) =>
+			dispatch(actions.auth(email, password, isSignUp)),
 	};
 };
 
