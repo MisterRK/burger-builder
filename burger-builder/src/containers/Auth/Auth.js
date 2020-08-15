@@ -135,6 +135,7 @@ class Auth extends Component {
 				<Button clicked={this.switchAuthMode} btnType="Danger">
 					{this.state.isSignUp ? "Switch to Sign In" : "Switch to Sign Up"}
 				</Button>
+				<Button clicked={this.props.logout} disabled={this.props.user ? false: true} btnType="Danger">Sign Out</Button>
 			</div>
 		);
 	}
@@ -143,14 +144,15 @@ class Auth extends Component {
 const mapStateToProps = state => {
 	return {
 		loading: state.auth.loading,
-		 error: state.auth.error
+		error: state.auth.error,
+		user: state.auth.user
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onAuth: (email, password, isSignUp) =>
-			dispatch(actions.auth(email, password, isSignUp)),
+		onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
+		logout: () => dispatch(actions.logout())
 	};
 };
 
