@@ -103,7 +103,7 @@ class Auth extends Component {
 				config: this.state.controls[key],
 			});
 		}
-		const form = formElementsArray.map((formElement) => (
+		let form = formElementsArray.map((formElement) => (
 			<Input
 				key={formElement.id}
 				touched={formElement.config.touched}
@@ -115,6 +115,15 @@ class Auth extends Component {
 				elementType={formElement.config.elementType}
 			/>
 		));
+		if(this.props.loading){
+			form = <Spinner/>
+		}
+		let errorMessage = null;
+		if(this.props.error){
+			errorMessage = (
+				<p>this.props.error.message</p>
+			)
+		}
 		return (
 			<div className={classes.AuthForm}>
 				<form onSubmit={this.submitHandler}>
@@ -131,6 +140,13 @@ class Auth extends Component {
 	}
 }
 
+const mapStateToProps = state => {
+	return {
+		loading: state.auth.loading,
+		 error: state.auth.error
+	}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onAuth: (email, password, isSignUp) =>
@@ -138,4 +154,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

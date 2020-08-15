@@ -42,14 +42,16 @@ export const auth = (email, password, isSignUp) => {
          let user = firebase.auth().currentUser
          dispatch(authSuccess(user))
          .catch(error => {
+            dispatch(authFailed(error.message))
             console.log(error.code, error.message)
          })
-         dispatch(authSuccess())
+         
       //otherwise sign in an already created user
       //get access to the user's information using global auth object
       } else {
          firebase.auth().signInWithEmailAndPassword(email, password)
          .catch(error => console.log(error.code, error.message))
+         dispatch(authSuccess())
       }
 
    }
