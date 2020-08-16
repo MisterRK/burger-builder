@@ -14,7 +14,6 @@ class Orders extends Component {
       }
    }
    render () {
-      console.log(this.props.user.uid)
       let orders = <Spinner/>
       if(!this.props.loading){
          orders = 
