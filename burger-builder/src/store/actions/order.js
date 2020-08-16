@@ -1,5 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios-orders'
+import * as firebase from 'firebase'
+import { firebaseApp } from '../actions/auth'
+
 
 export const purchaseBurgerSuccess = (id, orderData) => {
 	return {
@@ -63,11 +66,13 @@ export const fetchOrdersStart = () => {
    }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (uid) => {
    return dispatch => {
       dispatch(fetchOrdersStart())
+
       axios.get('/orders.json')
       .then(res => {
+         console.log(res)
          let fetchedOrders = []
          for(let key in res.data){
             fetchedOrders.push({
@@ -77,6 +82,7 @@ export const fetchOrders = () => {
          dispatch(fetchOrdersSucces(fetchedOrders))
       })
       .catch(error => {
+         console.log(error)
          dispatch(fetchOrdersFailed(error))
       })
    }

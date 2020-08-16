@@ -21,13 +21,15 @@ class BurgerBuilder extends Component {
 
 	componentDidMount() {
 		this.props.onInitIngredients();
-		firebase.auth().onAuthStateChanged(user => {
-			console.log(
-				user.displayName,
-				user.email,
-				user.uid,
-			)
-		})
+		if(this.props.user){
+			firebase.auth().onAuthStateChanged(user => {
+				console.log(
+					user.displayName,
+					user.email,
+					user.uid,
+				)
+			})
+		}
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -113,6 +115,7 @@ const mapStateToProps = (state) => {
 		ings: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
 		error: state.burgerBuilder.error,
+		user: state.auth.user
 	};
 };
 

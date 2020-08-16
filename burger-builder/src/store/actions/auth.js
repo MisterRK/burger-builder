@@ -11,7 +11,8 @@ const firebaseConfig = {
    storageBucket: "react---burger-builder.appspot.com",
    messagingSenderId: "1043533005563",
 }
-firebase.initializeApp(firebaseConfig)
+
+export const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 export const authStart = () => {
    return {
@@ -33,6 +34,13 @@ export const authFailed = (error) => {
    }
 }
 
+export const authLogoutSuccess = () => {
+   return{
+      type: actionTypes.AUTH_LOGOUT,
+      user: null
+   }
+}
+
 export const auth = (email, password, isSignUp) => {
    return dispatch => {
       dispatch(authStart());
@@ -50,14 +58,13 @@ export const auth = (email, password, isSignUp) => {
       //otherwise sign in an already created user
       //get access to the user's information using global auth object
       } else {
-         firebase.auth().signInWithEmailAndPassword(email, password)
-         .catch(error => console.log(error.code, error.message))
-
-         firebase.auth().onAuthStateChanged(user => {
-            if(user){
-               dispatch(authSuccess(user))
-            }
-         })
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(error => console.log(error.code, error.message))
+               firebase.auth().onAuthStateChanged(user => {
+                  if(user){
+                     dispatch(authSuccess(user))
+                  }
+               })
       }
 
    }
@@ -68,5 +75,6 @@ export const logout = () => {
       firebase.auth().signOut()
       .then(response => console.log("sign out successful"))
       .catch(error => console.log(error))
+      dispatch(authLogoutSuccess())
    }
 }
