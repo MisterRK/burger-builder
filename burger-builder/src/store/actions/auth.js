@@ -61,6 +61,7 @@ export const auth = (email, password, isSignUp) => {
             firebase.auth().signInWithEmailAndPassword(email, password)
             .catch(error => console.log(error.code, error.message))
                firebase.auth().onAuthStateChanged(user => {
+                  console.log("[auth action ]", user)
                   if(user){
                      dispatch(authSuccess(user))
                   }
@@ -76,5 +77,12 @@ export const logout = () => {
       .then(response => console.log("sign out successful"))
       .catch(error => console.log(error))
       dispatch(authLogoutSuccess())
+   }
+}
+
+export const setAuthRedirectPath = (path) => {
+   return {
+      type: actionTypes.SET_AUTH_REDIRECT,
+      path: path
    }
 }

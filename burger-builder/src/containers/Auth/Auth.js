@@ -5,6 +5,7 @@ import classes from "./auth.module.css";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { Redirect } from 'react-router-dom'
 
 class Auth extends Component {
 	state = {
@@ -95,6 +96,12 @@ class Auth extends Component {
 		});
 	};
 
+	componentDidMount(){
+		if(!this.props.buildingBurger && this.props.authRedirectPath !== '/'){
+			this.props.onSetAuthRedirectPath();
+		}
+	}
+
 	render() {
 		const formElementsArray = [];
 		for (let key in this.state.controls) {
@@ -124,15 +131,20 @@ class Auth extends Component {
 				<p>this.props.error.message</p>
 			)
 		}
+		let authRedirect = null;
+		if(this.props.user){
+			authRedirect = <Redirect to={this.props.authRedirectPath} />
+		}
 		return (
 			<div className={classes.AuthForm}>
+				{authRedirect}
 				<form onSubmit={this.submitHandler}>
 					{form}
 					<Button btnType="Success">
 						{this.state.isSignUp ? "Sign Up" : "Sign In"}
 					</Button>
 				</form>
-				<Button clicked={this.switchAuthMode} btnType="Danger">
+				<Button disabled={this.props.user? true : false} clicked={this.switchAuthMode} btnType="Danger">
 					{this.state.isSignUp ? "Switch to Sign In" : "Switch to Sign Up"}
 				</Button>
 				<Button clicked={this.props.logout} disabled={this.props.user ? false: true} btnType="Danger">Sign Out</Button>
@@ -145,14 +157,17 @@ const mapStateToProps = state => {
 	return {
 		loading: state.auth.loading,
 		error: state.auth.error,
-		user: state.auth.user
+		user: state.auth.user,
+		buildingBurger: state.burgerBuilder.building,
+		authRedirectPath: state.auth.authRedirectPath,
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
-		logout: () => dispatch(actions.logout())
+		logout: () => dispatch(actions.logout()),
+		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
 	};
 };
 

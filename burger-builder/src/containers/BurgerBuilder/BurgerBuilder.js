@@ -23,11 +23,6 @@ class BurgerBuilder extends Component {
 		this.props.onInitIngredients();
 		if(this.props.user){
 			firebase.auth().onAuthStateChanged(user => {
-				console.log(
-					user.displayName,
-					user.email,
-					user.uid,
-				)
 			})
 		}
 	}
@@ -44,7 +39,13 @@ class BurgerBuilder extends Component {
 	};
 
 	purchaseHandler = () => {
-		this.setState({ ordered: true });
+		if (this.props.user){
+			this.setState({ ordered: true });
+		} else {
+			this.props.onSetAuthRedirectPath('/checkout')
+			this.props.history.push('/auth')
+		}
+		
 	};
 
 	purchaseCancel = () => {
@@ -86,6 +87,7 @@ class BurgerBuilder extends Component {
 						purchaseable={this.updatePurchaseState(this.props.ings)}
 						disabled={disabledInfo}
 						ordered={this.purchaseHandler}
+						isAuth={this.props.user}
 					/>
 				</Aux>
 			);
@@ -126,7 +128,8 @@ const mapDispatchToProps = (dispatch) => {
 		removeIngredient: (ingName) =>
 			dispatch(actions.removeIngredient(ingName)),
 		onInitIngredients: () => dispatch(actions.initIngredients()),
-		onInitPurchase: () => dispatch(actions.purchaseInit())
+		onInitPurchase: () => dispatch(actions.purchaseInit()),
+		onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path)),
 	};
 };
 

@@ -1,17 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import classes from "./navigationItems.module.css";
 import NavigationItem from './NavigationItem.js/NavigationItem'
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
+import { connect } from 'react-redux'
 
-const NavigationItems = () => {
+const NavigationItems = (props) => {
   return (
     <ul className={classes.NavigationItems}>
       <NavigationItem link="/">Burger Builder</NavigationItem>
-      <NavigationItem link="/orders">Orders</NavigationItem>
-      <NavigationItem link="/auth">Authenticate</NavigationItem>
+      {props.user ? <NavigationItem link="/orders">Orders</NavigationItem> : null }
+      {props.user? <NavigationItem link='/logout'>Logout</NavigationItem> : <NavigationItem link="/auth">Login</NavigationItem>}
+      
     </ul>
   )
 }
 
-export default NavigationItems;
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps)(NavigationItems);
