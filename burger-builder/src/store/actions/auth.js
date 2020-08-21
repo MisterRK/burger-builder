@@ -21,6 +21,7 @@ export const authStart = () => {
 }
 
 export const authSuccess = (user) => {
+   localStorage.setItem('user', user)
    return {
       type: actionTypes.AUTH_SUCCESS,
       user: user
@@ -72,6 +73,7 @@ export const auth = (email, password, isSignUp) => {
 }
 
 export const logout = () => {
+   localStorage.removeItem('user')
    return dispatch => {
       firebase.auth().signOut()
       .then(response => console.log("sign out successful"))
@@ -84,5 +86,16 @@ export const setAuthRedirectPath = (path) => {
    return {
       type: actionTypes.SET_AUTH_REDIRECT,
       path: path
+   }
+}
+
+export const authCheckState = () => {
+   return dispatch => {
+      const user = localStorage.getItem('user');
+      if(!user) {
+         dispatch(logout())
+      } else {
+         dispatch(authSuccess(user))
+      }
    }
 }
