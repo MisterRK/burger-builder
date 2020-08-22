@@ -21,7 +21,6 @@ export const authStart = () => {
 }
 
 export const authSuccess = (user) => {
-   localStorage.setItem('user', user)
    return {
       type: actionTypes.AUTH_SUCCESS,
       user: user
@@ -52,10 +51,7 @@ export const auth = (email, password, isSignUp) => {
             console.log(error.code, error.message)
          })
          let user = firebase.auth().currentUser
-         dispatch(authSuccess(user))
-            
-         
-         
+         dispatch(authSuccess(user))  
       //otherwise sign in an already created user
       //get access to the user's information using global auth object
       } else {
@@ -64,7 +60,8 @@ export const auth = (email, password, isSignUp) => {
                firebase.auth().onAuthStateChanged(user => {
                   console.log("[auth action ]", user)
                   if(user){
-                     dispatch(authSuccess(user))
+                     localStorage.setItem("user", user.uid)
+                     dispatch(authSuccess(user.uid))
                   }
                })
       }
@@ -73,7 +70,6 @@ export const auth = (email, password, isSignUp) => {
 }
 
 export const logout = () => {
-   localStorage.removeItem('user')
    return dispatch => {
       firebase.auth().signOut()
       .then(response => console.log("sign out successful"))
@@ -92,9 +88,7 @@ export const setAuthRedirectPath = (path) => {
 export const authCheckState = () => {
    return dispatch => {
       const user = localStorage.getItem('user');
-      if(!user) {
-         dispatch(logout())
-      } else {
+      if(user) {
          dispatch(authSuccess(user))
       }
    }
