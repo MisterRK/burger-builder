@@ -66,10 +66,10 @@ export const fetchOrdersStart = () => {
    }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (userId) => {
    return dispatch => {
       firebase.auth().currentUser.getIdToken(true)
-      .then(token => axios.get('/orders.json?auth=' + token))
+      .then(token => axios.get('/orders.json?auth=' + token + `&orderBy="userId"&equalTo="${userId}"`))
       .then(res => {
          console.log(res)
          let fetchedOrders = []

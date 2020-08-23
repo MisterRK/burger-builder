@@ -146,6 +146,7 @@ class ContactData extends Component {
 			ingredients: this.props.ings,
 			price: this.props.price,
 			orderData: customerData,
+			userId: this.props.userId
 		};
 		this.props.onOrderBurger(order);
 	};
