@@ -13,7 +13,6 @@ const authStart = (state, action) => {
 };
 
 const authSuccess = (state, action) => {
-	console.log('[auth success in reducer', action)
 	return updateObject(state, {
 		user: action.user,
 		error: false,

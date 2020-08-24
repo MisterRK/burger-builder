@@ -32,8 +32,6 @@ export const purchaseBurger = (orderData) => {
       axios
          .post("/orders.json", orderData)
 			.then((response) => {
-            console.log(orderData)
-            console.log(response);
             dispatch(purchaseBurgerSuccess( response.data.name, orderData));
 			})
 			.catch((error) => dispatch(purchaseBurgerFailed(error)));
@@ -71,7 +69,6 @@ export const fetchOrders = (userId) => {
       firebase.auth().currentUser.getIdToken(true)
       .then(token => axios.get('/orders.json?auth=' + token + `&orderBy="userId"&equalTo="${userId}"`))
       .then(res => {
-         console.log(res)
          let fetchedOrders = []
          for(let key in res.data){
             fetchedOrders.push({

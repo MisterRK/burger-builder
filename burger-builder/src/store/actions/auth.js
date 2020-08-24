@@ -58,7 +58,6 @@ export const auth = (email, password, isSignUp) => {
             firebase.auth().signInWithEmailAndPassword(email, password)
             .catch(error => console.log(error.code, error.message))
                firebase.auth().onAuthStateChanged(user => {
-                  console.log("[auth action ]", user)
                   if(user){
                      localStorage.setItem("user", user.uid)
                      dispatch(authSuccess(user.uid))
@@ -72,7 +71,7 @@ export const auth = (email, password, isSignUp) => {
 export const logout = () => {
    return dispatch => {
       firebase.auth().signOut()
-      .then(response => console.log("sign out successful"))
+      .then(response => console.log('sign out successful'))
       .catch(error => console.log(error))
       dispatch(authLogoutSuccess())
    }
