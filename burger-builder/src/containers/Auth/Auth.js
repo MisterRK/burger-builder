@@ -5,7 +5,8 @@ import classes from "./auth.module.css";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
+import { updateObject, checkValidity } from "../../store/utility";
 
 class Auth extends Component {
 	state = {
@@ -42,42 +43,14 @@ class Auth extends Component {
 		isSignUp: true,
 	};
 
-	checkValidity(value, rules) {
-		console.log("value, rules", value, rules);
-		let isValid = true;
-		if (rules.required) {
-			isValid = value.trim() !== "" && isValid;
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid;
-		}
-		if (rules.isEmail) {
-			const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/;
-			isValid = pattern.test(value) && isValid;
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid;
-		}
-
-		// console.log("isValid", isValid)
-		return isValid;
-	};
-
 	inputChangedHandler = (e, controlName) => {
-		const updatedControls = {
-			...this.state.controls,
-			[controlName]: {
-				...this.state.controls[controlName],
+		const updatedControls = updateObject(this.state.controls, {
+			[controlName]: updateObject(this.state.controls[controlName], {
 				value: e.target.value,
-				valid: this.checkValidity(
-					e.target.value,
-					this.state.controls[controlName].validation
-				),
+				valid: checkValidity(e.target.value, this.state.validation),
 				touched: true,
-			},
-		};
+			}),
+		});
 		this.setState({ controls: updatedControls });
 	};
 
@@ -96,8 +69,8 @@ class Auth extends Component {
 		});
 	};
 
-	componentDidMount(){
-		if(!this.props.buildingBurger && this.props.authRedirectPath !== '/'){
+	componentDidMount() {
+		if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
 			this.props.onSetAuthRedirectPath();
 		}
 	}
@@ -122,18 +95,16 @@ class Auth extends Component {
 				elementType={formElement.config.elementType}
 			/>
 		));
-		if(this.props.loading){
-			form = <Spinner/>
+		if (this.props.loading) {
+			form = <Spinner />;
 		}
 		let errorMessage = null;
-		if(this.props.error){
-			errorMessage = (
-				<p>this.props.error.message</p>
-			)
+		if (this.props.error) {
+			errorMessage = <p>this.props.error.message</p>;
 		}
 		let authRedirect = null;
-		if(this.props.user){
-			authRedirect = <Redirect to={this.props.authRedirectPath} />
+		if (this.props.user) {
+			authRedirect = <Redirect to={this.props.authRedirectPath} />;
 		}
 		return (
 			<div className={classes.AuthForm}>
@@ -144,30 +115,41 @@ class Auth extends Component {
 						{this.state.isSignUp ? "Sign Up" : "Sign In"}
 					</Button>
 				</form>
-				<Button disabled={this.props.user? true : false} clicked={this.switchAuthMode} btnType="Danger">
+				<Button
+					disabled={this.props.user ? true : false}
+					clicked={this.switchAuthMode}
+					btnType="Danger"
+				>
 					{this.state.isSignUp ? "Switch to Sign In" : "Switch to Sign Up"}
 				</Button>
-				<Button clicked={this.props.logout} disabled={this.props.user ? false: true} btnType="Danger">Sign Out</Button>
+				<Button
+					clicked={this.props.logout}
+					disabled={this.props.user ? false : true}
+					btnType="Danger"
+				>
+					Sign Out
+				</Button>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		loading: state.auth.loading,
 		error: state.auth.error,
 		user: state.auth.user,
 		buildingBurger: state.burgerBuilder.building,
 		authRedirectPath: state.auth.authRedirectPath,
-	}
-}
+	};
+};
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
+		onAuth: (email, password, isSignUp) =>
+			dispatch(actions.auth(email, password, isSignUp)),
 		logout: () => dispatch(actions.logout()),
-		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
+		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
 	};
 };
 

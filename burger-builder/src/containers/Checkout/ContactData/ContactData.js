@@ -7,6 +7,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions/index";
+import { updateObject, checkValidity } from '../../../store/utility'
 
 class ContactData extends Component {
 	state = {
@@ -96,14 +97,12 @@ class ContactData extends Component {
 	};
 
 	inputChangedHandler = (e, formElementId) => {
-		const updatedOrderForm = { ...this.state.orderForm };
-		const updatedOrderFormElement = { ...updatedOrderForm[formElementId] };
-		updatedOrderFormElement.value = e.target.value;
-		updatedOrderFormElement.valid = this.checkValidity(
-			updatedOrderFormElement.value,
-			updatedOrderFormElement.validation
-		);
-		updatedOrderFormElement.touched = true;
+		const updatedOrderFormElement = updateObject(this.state.orderForm[formElementId],{
+			value:e.target.value,
+			valid: checkValidity(e.target.value, this.state.orderForm[formElementId].validation),
+			touched: true
+		}) 
+		const updatedOrderForm = updateObject(this.state.orderForm, { [formElementId]: updatedOrderFormElement })
 		updatedOrderForm[formElementId] = updatedOrderFormElement;
 		console.log(updatedOrderForm);
 
@@ -115,24 +114,7 @@ class ContactData extends Component {
 		this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
 	};
 
-	checkValidity(value, rules) {
-		console.log("value, rules", value, rules);
-		let isValid = true;
-		if (rules.required) {
-			isValid = value.trim() !== "" && isValid;
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid;
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid;
-		}
-
-		// console.log("isValid", isValid)
-		return isValid;
-	}
+	
 
 	orderHandler = (e) => {
 		e.preventDefault();
