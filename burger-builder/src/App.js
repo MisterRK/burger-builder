@@ -20,33 +20,31 @@ class App extends Component {
 				<Route path="/auth" component={Auth} />
 				<Route exact path="/" component={BurgerBuilder} />
 			</Switch>
-    );
-    if(this.props.user){
-      routes = (
-        <Switch>
-						<Route path="/checkout" component={Checkout} />
-						<Route path="/orders" component={Orders} />
-						<Route path="/logout" component={Logout} />
-            <Route path="/auth" component={Auth} />
-						<Route exact path="/" component={BurgerBuilder} />
-					</Switch>
-      )
-    }
+		);
+		if (this.props.user) {
+			routes = (
+				<Switch>
+					<Route path="/checkout" component={Checkout} />
+					<Route path="/orders" component={Orders} />
+					<Route path="/logout" component={Logout} />
+					<Route path="/auth" component={Auth} />
+					<Route exact path="/" component={BurgerBuilder} />
+				</Switch>
+			);
+		}
 		return (
 			<div>
-				<Layout>
-					{routes}
-				</Layout>
+				<Layout>{routes}</Layout>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  }
-}
+const mapStateToProps = (state) => {
+	return {
+		user: state.auth.user,
+	};
+};
 const mapDispatchToProps = (dispatch) => {
 	return {
 		autoLoginCheck: () => dispatch(actions.authCheckState()),

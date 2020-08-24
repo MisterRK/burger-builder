@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios-orders'
 import * as firebase from 'firebase'
-import { firebaseApp } from '../actions/auth'
+
 
 
 export const purchaseBurgerSuccess = (id, orderData) => {
