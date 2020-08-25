@@ -6,17 +6,30 @@ import Adapter from "enzyme-adapter-react-16";
 //you need the components you are going to work with
 import NavigationItems from "./NavigationItems";
 import NavigationItem from "./NavigationItem.js/NavigationItem";
-//mock store for our connected component to work with
-import configureStore from "redux-mock-store";
-//import Provider from react-redux to connect store to the component to be tested.
-import { Provider } from "react-redux";
 
 //connect enzyme to our React version
 configure({ adapter: new Adapter() });
 
 describe("<NavigationItems />", () => {
+	let wrapper;
+
+	beforeEach(() => {
+		wrapper = shallow(<NavigationItems />);
+	});
+
 	it("should render two <NavigationItems/> when a user is NOT authenticated", () => {
-		const wrapper = shallow(<NavigationItems />);
 		expect(wrapper.find(NavigationItem)).toHaveLength(2);
 	});
+
+	it("should render three <NavigationItems/> when a user is authenticated", () => {
+		// wrapper = shallow(<NavigationItems user/>)
+		wrapper.setProps({ user: true });
+		expect(wrapper.find(NavigationItem)).toHaveLength(3);
+	});
+
+	it("should render the logout Navigation Item when user is authenticated", () => {
+		wrapper.setProps({user: true})
+		expect(wrapper.contains(<NavigationItem link='/logout'>Logout</NavigationItem>)).toEqual(true)
+	});
+
 });
