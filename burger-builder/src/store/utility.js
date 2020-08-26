@@ -6,7 +6,6 @@ export const updateObject = (oldObject, updatedProperties) => {
 };
 
 export const checkValidity = (value, rules) => {
-	console.log(value, rules)
 	let isValid = true;
 	if (rules.required) {
 		isValid = value.trim() !== "" && isValid;
