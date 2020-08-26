@@ -22,7 +22,6 @@ describe("<NavigationItems />", () => {
 	});
 
 	it("should render three <NavigationItems/> when a user is authenticated", () => {
-		// wrapper = shallow(<NavigationItems user/>)
 		wrapper.setProps({ user: true });
 		expect(wrapper.find(NavigationItem)).toHaveLength(3);
 	});

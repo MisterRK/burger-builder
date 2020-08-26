@@ -13,7 +13,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 	state = {
 		ordered: false,
 		loading: false,
