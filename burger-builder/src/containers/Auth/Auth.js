@@ -44,13 +44,15 @@ class Auth extends Component {
 	};
 
 	inputChangedHandler = (e, controlName) => {
-		const updatedControls = updateObject(this.state.controls, {
-			[controlName]: updateObject(this.state.controls[controlName], {
+		//getting the even and the controlName i.e email
+		const updatedControls = {
+			...this.state.controls,
+			[controlName]: {
+				...this.state.controls[controlName],
 				value: e.target.value,
-				valid: checkValidity(e.target.value, this.state.controls[controlName].validation),
-				touched: true,
-			}),
-		});
+				valid: checkValidity(e.target.value, this.state.controls[controlName].validation)
+			}
+		}
 		this.setState({ controls: updatedControls });
 	};
 
@@ -83,6 +85,7 @@ class Auth extends Component {
 				config: this.state.controls[key],
 			});
 		}
+		console.log(formElementsArray)
 		let form = formElementsArray.map((formElement) => (
 			<Input
 				key={formElement.id}
@@ -148,7 +151,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onAuth: (email, password, isSignUp) =>
-			dispatch(actions.auth(email, password, isSignUp)),
+		dispatch(actions.auth(email, password, isSignUp)),
 		logout: () => dispatch(actions.logout()),
 		onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
 	};
