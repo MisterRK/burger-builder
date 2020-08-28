@@ -41,6 +41,8 @@ class Auth extends Component {
 			},
 		},
 		isSignUp: true,
+		email: "",
+		password:"",
 	};
 
 	inputChangedHandler = (e, controlName) => {
@@ -59,8 +61,8 @@ class Auth extends Component {
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.props.onAuth(
-			this.state.controls.email.value,
-			this.state.controls.password.value,
+			this.state.email,
+			this.state.password,
 			this.state.isSignUp
 		);
 	};
@@ -76,6 +78,9 @@ class Auth extends Component {
 			this.props.onSetAuthRedirectPath();
 		}
 	}
+	formChangeHandler = (e) => {
+		this.setState({[e.target.name]: e.target.value})
+	}
 
 	render() {
 		const formElementsArray = [];
@@ -85,7 +90,6 @@ class Auth extends Component {
 				config: this.state.controls[key],
 			});
 		}
-		console.log(formElementsArray)
 		let form = formElementsArray.map((formElement) => (
 			<Input
 				key={formElement.id}
@@ -114,7 +118,13 @@ class Auth extends Component {
 				{authRedirect}
 				<form onSubmit={this.submitHandler}>
 					{errorMessage}
-					{form}
+					<label className={classes.Label}>Email</label>
+					<input className={classes.Input} type='text' placeholder="Email" name="email" onChange={this.formChangeHandler} value={this.state.email.value}/>
+					<br/>
+					<label className={classes.Label}>Password</label>
+					<input className={classes.Input} type='password' placeholder="Password" name="password" onChange={this.formChangeHandler} value={this.state.password.value}/>
+					<br/>
+					{/* {form} */}
 					<Button btnType="Success">
 						{this.state.isSignUp ? "Sign Up" : "Sign In"}
 					</Button>
