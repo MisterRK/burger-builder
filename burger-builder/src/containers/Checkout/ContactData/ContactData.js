@@ -10,91 +10,101 @@ import * as actions from "../../../store/actions/index";
 import { updateObject, checkValidity } from '../../../store/utility'
 
 class ContactData extends Component {
+	// state = {
+	// 	orderForm: {
+	// 		name: {
+	// 			elementType: "input",
+	// 			elementConfig: {
+	// 				type: "text",
+	// 				placeholder: "Your Name",
+	// 			},
+	// 			validation: {
+	// 				required: true,
+	// 			},
+	// 			valid: false,
+	// 			touched: false,
+	// 			value: "",
+	// 		},
+	// 		street: {
+	// 			elementType: "text",
+	// 			elementConfig: {
+	// 				type: "text",
+	// 				placeholder: "Street",
+	// 			},
+	// 			validation: {
+	// 				required: true,
+	// 			},
+	// 			valid: false,
+	// 			touched: false,
+	// 			value: "",
+	// 		},
+	// 		zipCode: {
+	// 			elementType: "input",
+	// 			elementConfig: {
+	// 				type: "text",
+	// 				placeholder: "ZIP CODE",
+	// 			},
+	// 			validation: {
+	// 				required: true,
+	// 				minLength: 5,
+	// 				maxLength: 5,
+	// 			},
+	// 			valid: false,
+	// 			touched: false,
+	// 			value: "",
+	// 		},
+	// 		country: {
+	// 			elementType: "input",
+	// 			elementConfig: {
+	// 				type: "text",
+	// 				placeholder: "Country",
+	// 			},
+	// 			validation: {
+	// 				required: true,
+	// 			},
+	// 			touched: false,
+	// 			valid: false,
+	// 			value: "",
+	// 		},
+	// 		email: {
+	// 			elementType: "email",
+	// 			elementConfig: {
+	// 				type: "email",
+	// 				placeholder: "Your E-mail",
+	// 			},
+	// 			validation: {
+	// 				required: true,
+	// 			},
+	// 			touched: false,
+	// 			valid: false,
+	// 			value: "",
+	// 		},
+	// 		deliveryMethod: {
+	// 			elementType: "select",
+	// 			elementConfig: {
+	// 				options: [
+	// 					{ value: "fastest", displayValue: "Fastest" },
+	// 					{ value: "cheapest", displayValue: "Cheapest" },
+	// 				],
+	// 			},
+	// 			validation: {},
+	// 			valid: true,
+	// 			value: "fastest",
+	// 		},
+	// 	},
+	// 	formIsValid: false,
+	// 	loading: false,
+	// };
+
 	state = {
-		orderForm: {
-			name: {
-				elementType: "input",
-				elementConfig: {
-					type: "text",
-					placeholder: "Your Name",
-				},
-				validation: {
-					required: true,
-				},
-				valid: false,
-				touched: false,
-				value: "",
-			},
-			street: {
-				elementType: "text",
-				elementConfig: {
-					type: "text",
-					placeholder: "Street",
-				},
-				validation: {
-					required: true,
-				},
-				valid: false,
-				touched: false,
-				value: "",
-			},
-			zipCode: {
-				elementType: "input",
-				elementConfig: {
-					type: "text",
-					placeholder: "ZIP CODE",
-				},
-				validation: {
-					required: true,
-					minLength: 5,
-					maxLength: 5,
-				},
-				valid: false,
-				touched: false,
-				value: "",
-			},
-			country: {
-				elementType: "input",
-				elementConfig: {
-					type: "text",
-					placeholder: "Country",
-				},
-				validation: {
-					required: true,
-				},
-				touched: false,
-				valid: false,
-				value: "",
-			},
-			email: {
-				elementType: "email",
-				elementConfig: {
-					type: "email",
-					placeholder: "Your E-mail",
-				},
-				validation: {
-					required: true,
-				},
-				touched: false,
-				valid: false,
-				value: "",
-			},
-			deliveryMethod: {
-				elementType: "select",
-				elementConfig: {
-					options: [
-						{ value: "fastest", displayValue: "Fastest" },
-						{ value: "cheapest", displayValue: "Cheapest" },
-					],
-				},
-				validation: {},
-				valid: true,
-				value: "fastest",
-			},
-		},
-		formIsValid: false,
-		loading: false,
-	};
+		orderform: {
+			name: "",
+			address:"",
+			zipCode: "",
+			email: "",
+			deliveryMethod: "Fastest"
+		}
+	}
 
 	inputChangedHandler = (e, formElementId) => {
 		const updatedOrderFormElement = updateObject(this.state.orderForm[formElementId],{
@@ -171,8 +181,17 @@ class ContactData extends Component {
 		}
 		return (
 			<div className={classes.ContactData}>
-				<h4>Enter Your Contact Data</h4>
-				{form}
+				<h4>Enter Your Order Details Below</h4>
+				<input className={classes.Input} type="text" placeholder='Your Name' name="name" value={this.state.name}/>
+				<input className={classes.Input} type="text" placeholder='Address' name="address" value={this.state.address}/>
+				<input className={classes.Input} type="text" placeholder='Zip Code' name="zipCode" value={this.state.zipCode}/>
+				<input className={classes.Input} type="text" placeholder='Your Email' name="email" value={this.state.email}/>
+				<label className={classes.Label}>Delivery Method</label>
+				<select name="deliveryMethod">
+					<option value="Fastes">Fastest</option>
+					<option value="Cheapest">Cheapest</option>
+				</select>
+				{/* {form} */}
 			</div>
 		);
 	}

@@ -13,3 +13,34 @@
     width: 500px;
   }
 }
+
+/* Classes for Form Inputs */
+.Input {
+  width: 100%;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.Label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.InputElement {
+  outline: none;
+  border: 1px solid #ccc;
+  font: inherit;
+  padding: 6px 10px;
+  display: block;
+  width: 100%;
+}
+
+.InputElement:focus {
+  background-color: #EAEB6E;
+}
+
+.Invalid {
+  border: 1px solid red;
+  background-color: salmon;
+}
