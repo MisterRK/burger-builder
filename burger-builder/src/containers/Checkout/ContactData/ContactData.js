@@ -10,101 +10,69 @@ import * as actions from "../../../store/actions/index";
 import { updateObject, checkValidity } from '../../../store/utility'
 
 class ContactData extends Component {
+	state = {
+		orderForm: {
+			name: {
+				placeholder: "Your Name",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
+				value: "",
+			},
+			address: {
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
+				value: "",
+			},
+			zipCode: {
+					type: "text",
+					placeholder: "ZIP CODE",
+				validation: {
+					required: true,
+					minLength: 5,
+					maxLength: 5,
+				},
+				valid: false,
+				touched: false,
+				value: "",
+			},
+			email: {
+				validation: {
+					required: true,
+				},
+				touched: false,
+				valid: false,
+				value: "",
+			},
+			deliveryMethod: {
+				validation: {},
+				valid: true,
+				value: "fastest",
+			},
+		},
+		formIsValid: false,
+		loading: false,
+	};
+
 	// state = {
-	// 	orderForm: {
+	// 	orderform: {
 	// 		name: {
-	// 			elementType: "input",
-	// 			elementConfig: {
-	// 				type: "text",
-	// 				placeholder: "Your Name",
-	// 			},
-	// 			validation: {
-	// 				required: true,
-	// 			},
-	// 			valid: false,
-	// 			touched: false,
 	// 			value: "",
+	// 			isValid: false,
+
 	// 		},
-	// 		street: {
-	// 			elementType: "text",
-	// 			elementConfig: {
-	// 				type: "text",
-	// 				placeholder: "Street",
-	// 			},
-	// 			validation: {
-	// 				required: true,
-	// 			},
-	// 			valid: false,
-	// 			touched: false,
-	// 			value: "",
-	// 		},
-	// 		zipCode: {
-	// 			elementType: "input",
-	// 			elementConfig: {
-	// 				type: "text",
-	// 				placeholder: "ZIP CODE",
-	// 			},
-	// 			validation: {
-	// 				required: true,
-	// 				minLength: 5,
-	// 				maxLength: 5,
-	// 			},
-	// 			valid: false,
-	// 			touched: false,
-	// 			value: "",
-	// 		},
-	// 		country: {
-	// 			elementType: "input",
-	// 			elementConfig: {
-	// 				type: "text",
-	// 				placeholder: "Country",
-	// 			},
-	// 			validation: {
-	// 				required: true,
-	// 			},
-	// 			touched: false,
-	// 			valid: false,
-	// 			value: "",
-	// 		},
-	// 		email: {
-	// 			elementType: "email",
-	// 			elementConfig: {
-	// 				type: "email",
-	// 				placeholder: "Your E-mail",
-	// 			},
-	// 			validation: {
-	// 				required: true,
-	// 			},
-	// 			touched: false,
-	// 			valid: false,
-	// 			value: "",
-	// 		},
-	// 		deliveryMethod: {
-	// 			elementType: "select",
-	// 			elementConfig: {
-	// 				options: [
-	// 					{ value: "fastest", displayValue: "Fastest" },
-	// 					{ value: "cheapest", displayValue: "Cheapest" },
-	// 				],
-	// 			},
-	// 			validation: {},
-	// 			valid: true,
-	// 			value: "fastest",
-	// 		},
+	// 		address:"",
+	// 		zipCode: "",
+	// 		email: "",
+	// 		deliveryMethod: "Fastest"
 	// 	},
 	// 	formIsValid: false,
-	// 	loading: false,
-	// };
-
-	state = {
-		orderform: {
-			name: "",
-			address:"",
-			zipCode: "",
-			email: "",
-			deliveryMethod: "Fastest"
-		}
-	}
+	// }
 
 	inputChangedHandler = (e, formElementId) => {
 		const updatedOrderFormElement = updateObject(this.state.orderForm[formElementId],{
@@ -181,16 +149,19 @@ class ContactData extends Component {
 		}
 		return (
 			<div className={classes.ContactData}>
-				<h4>Enter Your Order Details Below</h4>
-				<input className={classes.Input} type="text" placeholder='Your Name' name="name" value={this.state.name}/>
-				<input className={classes.Input} type="text" placeholder='Address' name="address" value={this.state.address}/>
-				<input className={classes.Input} type="text" placeholder='Zip Code' name="zipCode" value={this.state.zipCode}/>
-				<input className={classes.Input} type="text" placeholder='Your Email' name="email" value={this.state.email}/>
-				<label className={classes.Label}>Delivery Method</label>
-				<select name="deliveryMethod">
-					<option value="Fastes">Fastest</option>
-					<option value="Cheapest">Cheapest</option>
-				</select>
+				<form>
+					<h4>Enter Your Order Details Below</h4>
+					<input className={classes.Input} type="text" placeholder="Your Name" name="name" value={this.state.name.value}/>
+					<input className={classes.Input} type="text" placeholder='Address' name="address" value={this.state.address.value}/>
+					<input className={classes.Input} type="text" placeholder='Zip Code' name="zipCode" value={this.state.zipCode.value}/>
+					<input className={classes.Input} type="text" placeholder='Your Email' name="email" value={this.state.email.value}/>
+					<label className={classes.Label}>Delivery Method</label>
+					<select name="deliveryMethod">
+						<option value="Fastes">Fastest</option>
+						<option value="Cheapest">Cheapest</option>
+					</select>
+					<Button disabled={!this.state.formIsValid} clicked={this.orderHandler} btnType="Success">Place Order</Button>
+				</form>
 				{/* {form} */}
 			</div>
 		);
