@@ -35,7 +35,8 @@ Burger-Builder is all about creating a custom burger and order it for delivery t
 ## Setup
 
 ---
-To get this project running locally you will need to create an application on Google Firebase as well as adjust some settings to allow authentication via email and password and realtime database. I'll be adding a section to this README with screenshots to give you exactly what
+To get this project running locally you will need to create an application on Google Firebase as well as adjust some settings to allow authentication via email and password and realtime database. I'll be adding a section to this README with screenshots to show you exactly how I went about setting this up for development, but until then here are links to the Firebase docs where things are clearly explained
+[Google Firebase](https://firebase.google.com/docs/web/setup)
 
 ## Demo Video
 
@@ -43,17 +44,20 @@ To get this project running locally you will need to create an application on Go
 
 ### Coming Soon
 
-## Examples of Use
+## Examples of Use Cases
 
 ---
+Ordering system for small burger joint where ordering can be more interactive.
 
-## Project Status
-
----
+Add a prompt for a specific order, children could use the app to create the burger and then enter the order information to practice spelling and typing.
 
 ## Sources & Helpful Links
 
 ---
+[Google Firebase Docs](https://firebase.google.com/docs)
+[Enzyme](https://github.com/enzymejs/enzyme)
+[React Router](https://github.com/enzymejs/enzyme)
+[Redux](https://redux.js.org/introduction/getting-started)
 
 ### This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
