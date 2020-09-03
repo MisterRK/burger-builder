@@ -1,6 +1,63 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# The Burger-Builder
 
-## Available Scripts
+---
+React application for creating and ordering your own custom burger. (ordering doesn't really happen; this is a personal project)
+
+## Table of Contents
+
+---
+
+* [Introduction](#introduction)
+* [Tech Stack](#tech-stack)
+* [Setup](#setup)
+* [Demo Video](#demo-video)
+* [Examples of Use Cases](#examples-of-use-cases)
+* [Project Status](#project-status)
+* [Sources & Helpful Links](#sources-&-helpful-links)
+
+## Introduction
+
+---
+Burger-Builder is all about creating a custom burger and order it for delivery to a location of your choosing. This was a fun way to combine my love of food and technology.
+
+## Tech Stack
+
+---
+
+* ReactJS
+* Redux
+* Google Firebase ( for realtime database, hosting and authentication )
+* Axios ( for HTTP requests )
+* Enzyme ( for testing )
+* React Router
+* React Thunk ( for middleware )
+
+## Setup
+
+---
+To get this project running locally you will need to create an application on Google Firebase as well as adjust some settings to allow authentication via email and password and realtime database. I'll be adding a section to this README with screenshots to give you exactly what
+
+## Demo Video
+
+---
+
+### Coming Soon
+
+## Examples of Use
+
+---
+
+## Project Status
+
+---
+
+## Sources & Helpful Links
+
+---
+
+### This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+<!-- ## Available Scripts
 
 In the project directory, you can run:
 
@@ -65,4 +122,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
